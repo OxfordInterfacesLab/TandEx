@@ -26,13 +26,13 @@ It also includes visualizations and parameter sweeps to explore design trade-off
 
 ### 1. **TCE-Related Losses**
 - **Electrical**: Series resistance is modeled via lateral conduction losses, leading to:
-  Rs = (R_sheet_TCE · l) / (6w)
+
+Rs = (R_sheet_TCE · l) / (6w)
+
 or
+
 ρs = (R_sheet_TCE · l²) / 12
 
-csharp
-Copy
-Edit
 
 **Optical:** Optical shading loss is calculated using weighted average transmittance (WAT):
 
@@ -45,7 +45,9 @@ WAT = ∫[ T_x(λ) · AM1.5G(λ) dλ ] / ∫[ AM1.5G(λ) dλ ]
 **Radiative dark current:**
 
 J01 = q · ∫[ BB(λ) · EQE(λ) dλ ]
+
 where
+
 BB(λ) = (2πc / λ⁴) · 1 / (exp(hc / λkT) - 1)
 
 **Short-circuit current for the perovskite sub-cell:**
