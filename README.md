@@ -3,7 +3,7 @@ Tandem Explorer: Multi-diode circuit model to calculate of 2J tandem solar cell 
 
 **Modeling the Practical Efficiency Limits of Tandem Solar Cells**
 
-This repository contains a Jupyter notebook (`tandex_01.ipynb`) that provides a comprehensive modeling framework to evaluate the practical efficiency limits of **perovskite–silicon tandem solar cells**, particularly accounting for the effects of **transparent conductive electrodes (TCEs)** on performance.
+The Jupyter notebook (`tandex_0X.ipynb`) provides a comprehensive modeling framework to evaluate the practical efficiency limits of **perovskite–silicon tandem solar cells**, particularly accounting for the effects of **transparent conductive electrodes (TCEs)** on performance.
 
 ---
 
@@ -26,37 +26,40 @@ It also includes visualizations and parameter sweeps to explore design trade-off
 
 ### 1. **TCE-Related Losses**
 - **Electrical**: Series resistance is modeled via lateral conduction losses, leading to:
-  
-  \[
-  R_s = \frac{R_{\text{sheet}}^{\text{TCE}} \cdot l}{6w}
-  \quad \text{or} \quad
-  \rho_s = \frac{R_{\text{sheet}}^{\text{TCE}} \cdot l^2}{12}
-  \]
+  Rs = (R_sheet_TCE · l) / (6w)
+or
+ρs = (R_sheet_TCE · l²) / 12
 
-- **Optical**: Optical shading loss modeled using weighted average transmittance (WAT):
+csharp
+Copy
+Edit
 
-  \[
-  WAT = \frac{\int T_x(\lambda) \cdot AM1.5G(\lambda) \, d\lambda}{\int AM1.5G(\lambda) \, d\lambda}
-  \]
+**Optical:** Optical shading loss is calculated using weighted average transmittance (WAT):
 
-### 2. **Radiative Dark Current and Jsc**
-- Radiative dark current (J₀₁):
+WAT = ∫[ T_x(λ) · AM1.5G(λ) dλ ] / ∫[ AM1.5G(λ) dλ ]
 
-  \[
-  J_{01} = q \int BB(\lambda) \cdot EQE(\lambda) \, d\lambda
-  \]
+---
 
-- Short-circuit current (Jsc) for perovskite:
+### 2. Radiative Dark Current and Jsc
 
-  \[
-  J_{sc,P} = q \int AM1.5G(\lambda) \cdot EQE_P(\lambda) \, d\lambda
-  \]
+**Radiative dark current:**
 
-  Where:
+J01 = q · ∫[ BB(λ) · EQE(λ) dλ ]
+where
+BB(λ) = (2πc / λ⁴) · 1 / (exp(hc / λkT) - 1)
 
-  \[
-  EQE_P(\lambda) = T_{x,\text{front}} \cdot \left(1 - e^{-\alpha(\lambda) W}\right)
-  \]
+**Short-circuit current for the perovskite sub-cell:**
+
+Jsc_P = q · ∫[ AM1.5G(λ) · EQE_P(λ) dλ ]
+
+with
+
+EQE_P(λ) = T_x_front · (1 - exp(-α(λ) · W))
+
+Here:
+- `T_x_front` is the transmittance through the front layer stack (TCE + ARC + ETL + buffers)
+- `W` is the absorber thickness
+- `α(λ)` is the wavelength-dependent absorption coefficient
 
 ---
 
@@ -75,8 +78,3 @@ Install dependencies using `pip` or `conda`. The following packages are required
 - PySpice (for circuit simulation)
 - time, gc, ctypes (standard libraries)
 
-### Using pip
-
-```bash
-pip install numpy scipy matplotlib pandas
-pip install PySpice
